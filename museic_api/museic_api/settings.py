@@ -1,13 +1,17 @@
 from pathlib import Path
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-04%rqw)wz2^pjxwoy-ixn$c)8(l#y3*0euo@d&79ansa-$mwtu'
 
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']  
+ALLOWED_HOSTS = ['192.168.1.37', 'localhost', '127.0.0.1', '10.0.2.2']
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -15,11 +19,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'museic',
+    'rest_framework',  # REST Framework
+    'museic',  # Museic uygulaması
+    'corsheaders',  # CORS headers
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # CORS middleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -49,6 +55,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'museic_api.wsgi.application'
 
+# Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -60,6 +67,7 @@ DATABASES = {
     }
 }
 
+# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -75,6 +83,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Internationalization
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -83,6 +92,11 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
 
+# CORS settings
+CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins
+
+# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

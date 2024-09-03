@@ -5,6 +5,8 @@ import 'package:museic/core/configs/assets/app_images.dart';
 import 'package:museic/core/configs/assets/app_vectors.dart';
 import 'package:museic/core/configs/theme/app_colors.dart';
 import 'package:museic/presentation/auth/pages/sigup_or_siginin.dart';
+import 'package:museic/presentation/pages/home_page.dart';
+
 
 
 class GetStartedPage extends StatelessWidget {

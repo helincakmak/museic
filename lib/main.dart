@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:museic/core/configs/theme/app_theme.dart';
-import 'package:museic/presentation/pages/home_page.dart';
+import 'package:museic/presentation/pages/splash.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         theme: AppTheme.darkTheme,
         debugShowCheckedModeBanner: false,
-        home: const HomePage());
+        home: const SplashPage());
   }
 }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:museic/core/api_service.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -15,8 +14,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    // ApiService'den şarkı verilerini çekiyoruz
-    _songs = ApiService().fetchSongs();
+    _songs = ApiService().fetchSongs(); // ApiService'den şarkı verilerini çekiyoruz
   }
 
   @override
@@ -42,7 +40,7 @@ class _HomePageState extends State<HomePage> {
                 final song = songs[index];
                 return ListTile(
                   title: Text(song['title']),
-                  subtitle: Text(song['artist']),
+                  subtitle: Text(song['album']['title']),
                 );
               },
             );
