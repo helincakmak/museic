@@ -14,7 +14,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _songs = ApiService().fetchSongs(); // ApiService'den şarkı verilerini çekiyoruz
+    _songs =
+        ApiService().fetchSongs(); // ApiService'den şarkı verilerini çekiyoruz
   }
 
   @override
@@ -38,6 +39,7 @@ class _HomePageState extends State<HomePage> {
               itemCount: songs.length,
               itemBuilder: (context, index) {
                 final song = songs[index];
+                print('HOMEPAGESONG::::::: $song');
                 return ListTile(
                   title: Text(song['title']),
                   subtitle: Text(song['album']['title']),
