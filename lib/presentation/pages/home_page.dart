@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:museic/core/configs/assets/app_images.dart';
 import 'package:museic/core/configs/theme/app_colors.dart';
 import 'package:museic/presentation/pages/splash.dart';
+import 'package:museic/presentation/pages/new_songs.dart';
+
 
 import '../../../common/widgets/appbar/app_bar.dart';
 import '../../../core/configs/assets/app_vectors.dart';
@@ -60,7 +62,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             child: TabBarView(
               controller: _tabController,
               children: [
-                _newsTabContent(),
+                const NewsSongs(),
                 _videosTabContent(),
                 _artistsTabContent(),
                 _podcastsTabContent(),
