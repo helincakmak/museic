@@ -4,7 +4,7 @@ import 'package:museic/core/configs/assets/app_images.dart';
 import 'package:museic/core/configs/theme/app_colors.dart';
 import 'package:museic/presentation/pages/splash.dart';
 import 'package:museic/presentation/pages/new_songs.dart';
-
+import 'package:museic/presentation/pages/liked_songs.dart';
 
 import '../../../common/widgets/appbar/app_bar.dart';
 import '../../../core/configs/assets/app_vectors.dart';
@@ -18,6 +18,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final Set<int> _likedSongIds = {}; // Beğenilen şarkıların ID'lerini saklamak için
+
+  void _toggleLike(int songId) {
+    setState(() {
+      if (_likedSongIds.contains(songId)) {
+        _likedSongIds.remove(songId); // Beğeniyi kaldır
+      } else {
+        _likedSongIds.add(songId); // Beğeni ekle
+      }
+    });
+  }
+
+  bool _isLiked(int songId) {
+    return _likedSongIds.contains(songId); // Şarkının beğenilip beğenilmediğini kontrol et
+  }
 
   @override
   void initState() {
@@ -62,8 +77,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             child: TabBarView(
               controller: _tabController,
               children: [
-                const NewsSongs(),
-                _videosTabContent(),
+                NewsSongs(
+                  likedSongIds: _likedSongIds, // Set kullan
+                  toggleLike: _toggleLike,
+                  isLiked: _isLiked,
+                ),
+                LikedSongs(
+                  likedSongIds: _likedSongIds, // Set kullan
+                  toggleLike: _toggleLike,
+                  isLiked: _isLiked,
+                ),
                 _artistsTabContent(),
                 _podcastsTabContent(),
               ],
@@ -74,12 +97,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     );
   }
 
-  
-  Widget _homeTopCard(){
+  Widget _homeTopCard() {
     return Container(
-
-
-       margin: const EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
       height: 150,  // Daha yüksek bir kart
       decoration: BoxDecoration(
         color: AppColors.primary,
@@ -92,7 +112,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           ),
         ],
       ),
-
       child: SizedBox(
         height: 300,
         child: Stack(
@@ -100,20 +119,20 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             Align(
               alignment: Alignment.bottomCenter,
               child: SvgPicture.asset(
-                AppVectors.homeTopCard
+                AppVectors.homeTopCard,
               ),
             ),
             Align(
               alignment: Alignment.bottomRight,
               child: Padding(
                 padding: const EdgeInsets.only(
-                  right: 40
+                  right: 40,
                 ),
                 child: Image.asset(
-                  AppImages.homeArtist
+                  AppImages.homeArtist,
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -136,16 +155,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         ),
         tabs: [
           Tab(
-            text: 'News',
-            icon: Icon(Icons.new_releases),
+            text: 'Songs',
+            icon: Icon(Icons.audiotrack),
           ),
           Tab(
-            text: 'Videos',
-            icon: Icon(Icons.video_library),
+            text: 'Liked Songs',
+            icon: Icon(Icons.favorite),
           ),
           Tab(
-            text: 'Artists',
-            icon: Icon(Icons.art_track),
+            text: 'Playlist',
+            icon: Icon(Icons.playlist_play),
           ),
           Tab(
             text: 'Podcasts',
@@ -154,18 +173,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         ],
       ),
     );
-  }
-
-  Widget _newsTabContent() {
-    return Center(
-      child: Text('News Content', style: TextStyle(fontSize: 18, color: AppColors.lightBackground)),
-    );
-  }
-
-  Widget _videosTabContent() {
-    return Center(
-      child: Text('Videos Content', style: TextStyle(fontSize: 18, color: AppColors.lightBackground)),
-    );
+    
   }
 
   Widget _artistsTabContent() {

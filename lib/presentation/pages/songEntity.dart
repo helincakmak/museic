@@ -1,4 +1,3 @@
-// Define the ArtistEntity model
 class ArtistEntity {
   final int id;
   final String name;
@@ -19,7 +18,7 @@ class ArtistEntity {
   }
 }
 
-// Define the AlbumEntity model
+
 class AlbumEntity {
   final int id;
   final ArtistEntity artist;
@@ -43,6 +42,7 @@ class AlbumEntity {
   }
 }
 
+
 // Define the SongEntity model
 class SongEntity {
   final int id;
@@ -51,6 +51,7 @@ class SongEntity {
   final String duration;
   final String releaseDate;
   final String file;
+  final String? coverImage;  // Yeni alan, null olabilir
 
   SongEntity({
     required this.id,
@@ -59,6 +60,7 @@ class SongEntity {
     required this.duration,
     required this.releaseDate,
     required this.file,
+    this.coverImage,  // Opsiyonel alan
   });
 
   factory SongEntity.fromJson(Map<String, dynamic> json) {
@@ -69,6 +71,7 @@ class SongEntity {
       duration: json['duration'] as String,
       releaseDate: json['release_date'] as String,
       file: json['file'] as String,
+      coverImage: json['cover_image'] as String?,  // Opsiyonel alan
     );
   }
 }
