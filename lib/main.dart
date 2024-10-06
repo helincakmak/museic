@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:museic/alternative/helper/router.dart';
 import 'package:sizer/sizer.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,7 +9,7 @@ Future<void> main() async {
 
   await Future.delayed(Duration(seconds: 2));
   String initialRoute;
-  initialRoute = AppRouter.startPage;
+  initialRoute = AppRouter.homePageWrapper;
 
   runApp(MyApp(initialRoute: initialRoute));
 }

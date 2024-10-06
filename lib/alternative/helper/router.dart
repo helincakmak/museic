@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:museic/alternative/page/home_wrapper_page.dart';
+import 'package:museic/alternative/page/library/home_wrapper/home_wrapper_page.dart';
 import '../page/home_page.dart';
 import '../page/search_page.dart';
-import '../page/library_page.dart';
+import '../page/library/library_page.dart';
 import '../page/profile_page.dart';
 import '../page/signup_page.dart';
 import '../page/start_page.dart';
