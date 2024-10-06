@@ -41,7 +41,7 @@ class _HomePageWrapperState extends State<HomePageWrapper> {
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
                   'assets/vectors/home.svg',
-                  height: 6.w,
+                  height: 5.w,
                   color: _selectedIndex == 0 ? Colors.white : Colors.grey,
                 ),
                 label: 'Home',
@@ -49,7 +49,7 @@ class _HomePageWrapperState extends State<HomePageWrapper> {
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
                   'assets/vectors/search.svg',
-                  height: 6.w,
+                  height: 5.w,
                   color: _selectedIndex == 1 ? Colors.white : Colors.grey,
                 ),
                 label: 'Search',
@@ -57,7 +57,7 @@ class _HomePageWrapperState extends State<HomePageWrapper> {
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
                   'assets/vectors/library.svg',
-                  height: 6.w,
+                  height: 5.w,
                   color: _selectedIndex == 2 ? Colors.white : Colors.grey,
                 ),
                 label: 'Your Library',

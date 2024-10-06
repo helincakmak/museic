@@ -25,8 +25,6 @@ class _LibraryPageState extends State<LibraryPage> {
   String? currentlyPlayingImagePath;
   double _marqueePosition = 0;
 
-
-
   List<Map<String, String>> songs = [
     {
       'title': 'Liked Songs',
@@ -91,7 +89,6 @@ class _LibraryPageState extends State<LibraryPage> {
     });
   }
 
-
   Future<void> _playMusic({
     required String audioPath,
     required String title,
@@ -128,7 +125,6 @@ class _LibraryPageState extends State<LibraryPage> {
     }
   }
 
-
   bool isPlaying = false;
 
   void _pauseOrResumeMusic() {
@@ -160,16 +156,16 @@ class _LibraryPageState extends State<LibraryPage> {
   }
 
   void _startMarqueeAnimation() {
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(Duration(milliseconds: 100), () {
       if (_isPlayerVisible && currentlyPlayingTitle != null) {
         setState(() {
-          _marqueePosition = _marqueePosition == 0 ? -200 : 0;
+          _marqueePosition = _marqueePosition == 0 ? -MediaQuery.of(context).size.width : 0;
         });
+
         _startMarqueeAnimation();
       }
     });
   }
-
 
   @override
   void initState() {
@@ -200,170 +196,179 @@ class _LibraryPageState extends State<LibraryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFF111111),
-      body: Padding(
-        padding: EdgeInsets.only(right: 2.w, left: 2.w, top: 8.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(right: 2.w, left: 2.w, top: 8.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, AppRouter.profilePage);
-                      },
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage('assets/images/avatar.png'),
-                      ),
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, AppRouter.profilePage);
+                          },
+                          child: CircleAvatar(
+                            backgroundImage: AssetImage('assets/images/avatar.png'),
+                          ),
+                        ),
+                        SizedBox(width: 4.w),
+                        Text(
+                          'Your Library',
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 4.w),
-                    Text(
-                      'Your Library',
-                      style: TextStyle(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                    IconButton(
+                      icon: Icon(Icons.add, color: Colors.white),
+                      onPressed: () {},
                     ),
                   ],
                 ),
-                IconButton(
-                  icon: Icon(Icons.add, color: Colors.white),
-                  onPressed: () {},
+                SizedBox(height: 4.w),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      FilterChipWidget(
+                        label: 'Playlists',
+                        index: 0,
+                        selectedChipIndex: selectedChipIndex,
+                        onChipTap: (index) {
+                          setState(() {
+                            selectedChipIndex = index;
+                          });
+                        },
+                      ),
+                      FilterChipWidget(
+                        label: 'Artists',
+                        index: 1,
+                        selectedChipIndex: selectedChipIndex,
+                        onChipTap: (index) {
+                          setState(() {
+                            selectedChipIndex = index;
+                          });
+                        },
+                      ),
+                      FilterChipWidget(
+                        label: 'Albums',
+                        index: 2,
+                        selectedChipIndex: selectedChipIndex,
+                        onChipTap: (index) {
+                          setState(() {
+                            selectedChipIndex = index;
+                          });
+                        },
+                      ),
+                      FilterChipWidget(
+                        label: 'Podcasts & shows',
+                        index: 3,
+                        selectedChipIndex: selectedChipIndex,
+                        onChipTap: (index) {
+                          setState(() {
+                            selectedChipIndex = index;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 2.h),
+                GestureDetector(
+                  onTap: _sortRecentlyPlayed,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 1.h),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 8.w,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                'assets/vectors/arrow_up.svg',
+                                width: 4.w,
+                                height: 4.w,
+                                color: Colors.white,
+                              ),
+                              Positioned(
+                                left: 1,
+                                child: SvgPicture.asset(
+                                  'assets/vectors/arrow_down.svg',
+                                  width: 4.w,
+                                  height: 4.w,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Text(
+                          'Recently played',
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: songs.length,
+                    itemBuilder: (context, index) {
+                      final item = songs[index];
+
+                      return Container(
+                        color: Colors.transparent,
+                        child: item.containsKey('iconPath')
+                            ? SpecialItemWidget(
+                                title: item['title']!,
+                                subtitle: item['subtitle']!,
+                                gradientColors: [
+                                  Color(0xFF4A39EA),
+                                  Color(0xFF868AE1),
+                                  Color(0xFFB9D4DB),
+                                ],
+                                iconPath: item['iconPath']!,
+                              )
+                            : RecentlyPlayedItemWidget(
+                                title: item['title']!,
+                                subtitle: item['subtitle']!,
+                                imagePath: item['imagePath']!,
+                                audioPath: item['audioPath']!,
+                                onPlayMusic: () {
+                                  _playMusic(
+                                    audioPath: item['audioPath']!,
+                                    title: item['title']!,
+                                    artist: item['subtitle']!,
+                                    imagePath: item['imagePath']!,
+                                  );
+                                },
+                              ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
-            SizedBox(height: 4.w),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  FilterChipWidget(
-                    label: 'Playlists',
-                    index: 0,
-                    selectedChipIndex: selectedChipIndex,
-                    onChipTap: (index) {
-                      setState(() {
-                        selectedChipIndex = index;
-                      });
-                    },
-                  ),
-                  FilterChipWidget(
-                    label: 'Artists',
-                    index: 1,
-                    selectedChipIndex: selectedChipIndex,
-                    onChipTap: (index) {
-                      setState(() {
-                        selectedChipIndex = index;
-                      });
-                    },
-                  ),
-                  FilterChipWidget(
-                    label: 'Albums',
-                    index: 2,
-                    selectedChipIndex: selectedChipIndex,
-                    onChipTap: (index) {
-                      setState(() {
-                        selectedChipIndex = index;
-                      });
-                    },
-                  ),
-                  FilterChipWidget(
-                    label: 'Podcasts & shows',
-                    index: 3,
-                    selectedChipIndex: selectedChipIndex,
-                    onChipTap: (index) {
-                      setState(() {
-                        selectedChipIndex = index;
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 2.h),
-            GestureDetector(
-              onTap: _sortRecentlyPlayed,
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 1.h),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 8.w,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            'assets/vectors/arrow_up.svg',
-                            width: 4.w,
-                            height: 4.w,
-                            color: Colors.white,
-                          ),
-                          Positioned(
-                            left: 1,
-                            child: SvgPicture.asset(
-                              'assets/vectors/arrow_down.svg',
-                              width: 4.w,
-                              height: 4.w,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      'Recently played',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: songs.length,
-                itemBuilder: (context, index) {
-                  final item = songs[index];
-
-                  return Container(
-                    color: Colors.transparent,
-                    child: item.containsKey('iconPath')
-                        ? SpecialItemWidget(
-                      title: item['title']!,
-                      subtitle: item['subtitle']!,
-                      gradientColors: [
-                        Color(0xFF4A39EA),
-                        Color(0xFF868AE1),
-                        Color(0xFFB9D4DB),
-                      ],
-                      iconPath: item['iconPath']!,
-                    )
-                        : RecentlyPlayedItemWidget(
-                      title: item['title']!,
-                      subtitle: item['subtitle']!,
-                      imagePath: item['imagePath']!,
-                      audioPath: item['audioPath']!,
-                      onPlayMusic: () {
-                        _playMusic(
-                          audioPath: item['audioPath']!,
-                          title: item['title']!,
-                          artist: item['subtitle']!,
-                          imagePath: item['imagePath']!,
-                        );
-                      },
-                    ),
-                  );
-                },
-              ),
-            ),
-            if (_isPlayerVisible)
-              Stack(
+          ),
+          if (_isPlayerVisible)
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Stack(
                 children: [
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 3.w, vertical: 5.w),
@@ -392,7 +397,7 @@ class _LibraryPageState extends State<LibraryPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   AnimatedContainer(
-                                    duration: Duration(seconds: 2),
+                                    duration: Duration(seconds: 5),
                                     transform: Matrix4.translationValues(_marqueePosition, 0, 0),
                                     child: Text(
                                       currentlyPlayingTitle ?? 'Unknown Title',
@@ -449,8 +454,8 @@ class _LibraryPageState extends State<LibraryPage> {
                   ),
                 ],
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }
