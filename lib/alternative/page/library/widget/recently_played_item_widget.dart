@@ -22,7 +22,7 @@ class RecentlyPlayedItemWidget extends StatelessWidget {
     return ListTile(
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(8),
-        child: Image.asset(
+        child: Image.network(
           imagePath,
           fit: BoxFit.cover,
           width: 12.w,

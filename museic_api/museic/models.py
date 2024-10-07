@@ -3,6 +3,7 @@ from django.db import models
 class Artist(models.Model):
     name = models.CharField(max_length=100, help_text="Artist's name")
     genre = models.CharField(max_length=100, help_text="Music genre of the artist")
+    photo = models.ImageField(upload_to='artists/', null=True, blank=True, help_text="Photo of the artist")
 
     def __str__(self):
         return self.name
@@ -11,6 +12,7 @@ class Album(models.Model):
     title = models.CharField(max_length=100, help_text="Title of the album")
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE, related_name="albums", help_text="Artist who created the album")
     release_date = models.DateField(help_text="Release date of the album", null=True, blank=True)
+    cover_image = models.ImageField(upload_to='albums/', null=True, blank=True, help_text="Cover image of the album")
 
     def __str__(self):
         return self.title

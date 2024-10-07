@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:museic/alternative/page/artist_profile/artist_profile_page.dart';
 import 'package:museic/alternative/page/library/home_wrapper/home_wrapper_page.dart';
-import '../page/home_page.dart';
-import '../page/search_page.dart';
+import '../page/home/home_page.dart';
+import '../page/search/search_page.dart';
 import '../page/library/library_page.dart';
-import '../page/profile_page.dart';
-import '../page/signup_page.dart';
-import '../page/start_page.dart';
-
+import '../page/profile/profile_page.dart';
+import '../page/signup/signup_page.dart';
+import '../page/start/start_page.dart';
+import '../../../presentation/pages/songEntity.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -18,13 +19,26 @@ class AppRouter {
       case searchPage:
         return MaterialPageRoute(builder: (_) => SearchPage());
       case libraryPage:
-        return MaterialPageRoute(builder: (_) => LibraryPage());
+        return MaterialPageRoute(builder: (_) => LibraryPage(onPlayMusic: (SongEntity song) {}));
       case profilePage:
         return MaterialPageRoute(builder: (_) => ProfilePage());
       case startPage:
         return MaterialPageRoute(builder: (_) => StartPage());
       case signupPage:
         return MaterialPageRoute(builder: (_) => SignUpPage());
+      case artistProfilePage:
+        // ArtistProfilePage parametreleri settings.arguments ile alınıyor
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (_) => ArtistProfilePage(
+            artistName: args['artistName'],
+            artistImage: args['artistImage'],
+            artistGenre: args['artistGenre'],
+            description: '',
+            songs: [],
+            onPlayMusic: (SongEntity) {},
+          ),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(
@@ -43,4 +57,5 @@ class AppRouter {
   static const String profilePage = '/profile';
   static const String startPage = '/start';
   static const String signupPage = '/signup';
+  static const String artistProfilePage = '/artistProfile';
 }
